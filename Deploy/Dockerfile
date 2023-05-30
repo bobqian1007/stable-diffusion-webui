@@ -1,13 +1,13 @@
 FROM nvidia/cuda:11.4.3-cudnn8-runtime-ubuntu20.04
 
 # Install Python and other dependencies
-RUN apt-get update && apt-get install -y python3 python3-pip
+RUN apt-get update && apt-get upgrade -y && apt-get install -y python3 python3-pip && apt-get install -y vim git
 
-RUN DISTRIBUTION=`dpkg --status tzdata|grep Provides|cut -f2 -d'-'` && \
-    echo "deb http://mirrors.aliyun.com/debian/ ${DISTRIBUTION} main non-free" > /etc/apt/sources.list && \
-    apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install -y vim git
+#RUN DISTRIBUTION=`dpkg --status tzdata|grep Provides|cut -f2 -d'-'` && \
+#    echo "deb http://mirrors.aliyun.com/debian/ ${DISTRIBUTION} main non-free" > /etc/apt/sources.list && \
+#    apt-get update && \
+#    apt-get upgrade -y && \
+#    apt-get install -y vim git
 
 ARG PYPI=https://mirrors.aliyun.com/pypi/simple
 ARG target=/stable_deffusion_web_ui
