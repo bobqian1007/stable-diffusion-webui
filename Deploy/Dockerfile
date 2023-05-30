@@ -3,6 +3,12 @@ FROM nvidia/cuda:11.4.3-cudnn8-runtime-ubuntu20.04
 # Install Python and other dependencies
 RUN apt-get update && apt-get install -y python3 python3-pip
 
+RUN DISTRIBUTION=`dpkg --status tzdata|grep Provides|cut -f2 -d'-'` && \
+    echo "deb http://mirrors.aliyun.com/debian/ ${DISTRIBUTION} main non-free" > /etc/apt/sources.list && \
+    apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y vim git
+
 ARG PYPI=https://mirrors.aliyun.com/pypi/simple
 ARG target=/stable_deffusion_web_ui
 COPY requirements_versions.txt /tmp/
@@ -12,12 +18,6 @@ RUN python3 -m pip install -i ${PYPI} git+https://github.com/openai/CLIP.git@d50
 RUN python3 -m pip install -i ${PYPI} git+https://github.com/mlfoundations/open_clip.git@bb6e834e9c70d9c27d0dc3ecedeebeaeb1ffad6b --prefer-binary
 RUN python3 -m pip install --no-cache-dir -i ${PYPI} -r /tmp/requirements_codeformer.txt --prefer-binary
 RUN python3 -m pip install --no-cache-dir -i ${PYPI} -r /tmp/requirements_versions.txt --prefer-binary
-
-RUN DISTRIBUTION=`dpkg --status tzdata|grep Provides|cut -f2 -d'-'` && \
-    echo "deb http://mirrors.aliyun.com/debian/ ${DISTRIBUTION} main non-free" > /etc/apt/sources.list && \
-    apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install -y vim git
 
 
 
