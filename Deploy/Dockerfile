@@ -38,11 +38,9 @@ RUN mkdir localizations
 RUN mkdir extensions
 RUN mkdir embeddings
 
-COPY config.json ./
 COPY launch.py ./
 COPY script.js ./
 COPY style.css ./
-COPY ui-config.json ./
 COPY webui.py ./
 COPY webui_simplified.sh ./
 
